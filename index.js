@@ -73,6 +73,14 @@ server.post('/api/messages', (req, res) => {
     });
 });
 
+//Added for Jenkins communication parsing from email
+server.use(restify.plugins.bodyParser());
+server.post('/api/data',(req, res)=> {
+    //const data = JSON.parse(req);
+    await myBot.run(req.body);
+    res.send(200);
+});
+
 // Listen for Upgrade requests for Streaming.
 server.on('upgrade', (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
