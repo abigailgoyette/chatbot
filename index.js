@@ -34,6 +34,9 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
+// For Jenkins info
+const conversationReferences = {};
+
 // Map knowledge base endpoint values from .env file into the required format for `QnAMaker`.
 const configuration = {
     knowledgeBaseId: process.env.QnAKnowledgebaseId,
@@ -65,7 +68,7 @@ const onTurnErrorHandler = async (context, error) => {
 adapter.onTurnError = onTurnErrorHandler;
 
 // Create the main dialog.
-const myBot = new EchoBot(configuration, {});
+const myBot = new EchoBot(conversationReferences, configuration, {});
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
@@ -78,10 +81,28 @@ server.post('/api/messages', (req, res) => {
 //Added for Jenkins communication parsing from email
 //change to specific project
 server.use(restify.plugins.bodyParser());
-server.post('/api/data',(req, res)=> {
-    //const data = JSON.parse(req);
-    await myBot.run(req.body);
-    res.send(200);
+server.post('/api/data', async (req, res) => {
+    for (const conversationReference of Object.values(conversationReferences)) {
+        await adapter.continueConversation(conversationReference, async turnContext => {
+            await turnContext.sendActivity(req.body);
+
+            let bodyText = req.body;
+            let jobname = "";
+            let joburl = "";
+
+            jobname = bodyText.substring(bodyText.indexOf("JOB NAME:")+10, bodyText.indexOf("JOB URL:"));
+            jobname = jobname.replace(/\n/g, '');
+            jobname = jobname.substring(3, jobname.length);
+
+            joburl = bodyText.substring(bodyText.indexOf("JOB URL:")+9, bodyText.length);
+            joburl = joburl.replace(/\n/g, '');
+
+            linkFile("JOB NAME: " + jobname + "\n\n   JOB URL: "+ joburl);
+        });
+    }
+    res.setHeader('Content-Type', 'text/html');
+    res.writeHead(200);
+    res.end();
 });
 
 function linkFile(linkText){
