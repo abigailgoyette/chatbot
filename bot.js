@@ -13,9 +13,9 @@ class EchoBot extends ActivityHandler {
         this.qnaMaker = new QnAMaker(configuration, qnaOptions);
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-        this.onMessage(async (context, next) => {
+       /* this.onMessage(async (context, next) => {
             const replyText = `Echo: ${ context.activity.text }`;
-            await context.sendActivity(MessageFactory.text(replyText, replyText));
+            await context.sendActivity(MessageFactory.text(replyText, replyText));*/
 
             // send user input to QnA Maker.
             const qnaResults = await this.qnaMaker.getAnswers(context);

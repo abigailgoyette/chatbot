@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const fs = require('fs');
 const path = require('path');
-
 const dotenv = require('dotenv');
+const readline = require('readline');
+
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
 dotenv.config({ path: ENV_FILE });
@@ -74,12 +76,19 @@ server.post('/api/messages', (req, res) => {
 });
 
 //Added for Jenkins communication parsing from email
+//change to specific project
 server.use(restify.plugins.bodyParser());
 server.post('/api/data',(req, res)=> {
     //const data = JSON.parse(req);
     await myBot.run(req.body);
     res.send(200);
 });
+
+function linkFile(linkText){
+    fs.appendFile('link.txt', "\n - " + linkText + "\n", (err)=>{
+        if(err) throw(err);
+    });
+}
 
 // Listen for Upgrade requests for Streaming.
 server.on('upgrade', (req, socket, head) => {
