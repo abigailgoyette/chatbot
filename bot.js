@@ -3,15 +3,15 @@
 
 const { ActivityHandler, MessageFactory, TurnContext } = require('botbuilder');
 const fs = require('fs');
-const { QnAMaker } = require('botbuilder-ai');
+//const { QnAMaker } = require('botbuilder-ai');
 
 class EchoBot extends ActivityHandler {
-    constructor(conversationReferences, configuration, qnaOptions) {
+    constructor(conversationReferences) {
         super();
-        if (!configuration) throw new Error('[QnaMakerBot]: Missing parameter. configuration is required');
+        //if (!configuration) throw new Error('[QnaMakerBot]: Missing parameter. configuration is required');
 
         // now create a QnAMaker connector.
-        this.qnaMaker = new QnAMaker(configuration, qnaOptions);
+        //this.qnaMaker = new QnAMaker(configuration, qnaOptions);
 
         // Jenkins info
         this.conversationReferences = conversationReferences;
@@ -86,6 +86,7 @@ class EchoBot extends ActivityHandler {
                        
 
             // send user input to QnA Maker.
+            /*
             const qnaResults = await this.qnaMaker.getAnswers(context);
 
             // If an answer was received from QnA Maker, send the answer back to the user.
@@ -102,6 +103,7 @@ class EchoBot extends ActivityHandler {
 
              // By calling next() you ensure that the next BotHandler is run.
              await next();
+             */
         });
 
         this.onMembersAdded(async (context, next) => {
