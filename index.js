@@ -37,15 +37,6 @@ const adapter = new BotFrameworkAdapter({
 // For Jenkins info
 const conversationReferences = {};
 
-// Map knowledge base endpoint values from .env file into the required format for `QnAMaker`.
-/*
-const configuration = {
-    knowledgeBaseId: process.env.QnAKnowledgebaseId,
-    endpointKey: process.env.QnAAuthKey,
-    host: process.env.QnAEndpointHostName
- };
- */
-
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
