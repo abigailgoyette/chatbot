@@ -1,0 +1,78 @@
+{
+    "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.2",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text":"Please Enter Information:",
+        "id":"textid"
+      },
+      {
+        "type": "Input.Text",
+        "id": "name",
+        "value": "",
+        "placeholder":"Username"
+  
+      },
+      {
+        "type": "Input.Text",
+        "id": "token",
+        "value": "",
+        "placeholder":"API Token"
+      },
+      {
+        "type":"Container",
+        "items":[
+          {
+            "type": "ActionSet",
+            "actions": [
+              {
+                "type": "Action.ToggleVisibility",
+                "title": "Confirm",
+                "targetElements": [
+                  {
+                    "elementId": "name",
+                    "isVisible": false
+                  }, 
+                  {
+                    "elementId": "contain",
+                    "isVisible": true
+                  },
+                  {
+                    "elementId": "token",
+                    "isVisible": false
+                  },
+                  {
+                    "elementId": "textid",
+                    "isVisible": false
+                  }, 
+                  {
+                    "elementId": "clearid",
+                    "isVisible": false
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "id":"clearid"
+      },
+      {
+        "type":"Container",
+        "items":[
+          {
+            "type": "ActionSet",
+            "actions": [
+              {
+                "type": "Action.Submit", 
+                "title": "Submit" 
+              }
+            ]
+          }
+        ],
+        "id":"contain", 
+        "isVisible": false
+      }
+    ]
+  }
