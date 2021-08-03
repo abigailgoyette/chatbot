@@ -71,8 +71,7 @@ server.post('/api/messages', (req, res) => {
     });
 });
 
-//Added for Jenkins communication parsing from email
-//change to specific project
+//Captures email and parses information
 server.use(restify.plugins.bodyParser());
 server.post('/api/data', async (req, res) => {
     for (const conversationReference of Object.values(conversationReferences)) {
@@ -98,6 +97,7 @@ server.post('/api/data', async (req, res) => {
     res.end();
 });
 
+//Adds links to link
 function linkFile(linkText){
     fs.appendFile('link.txt', "\n - " + linkText + "\n", (err)=>{
         if(err) throw(err);
